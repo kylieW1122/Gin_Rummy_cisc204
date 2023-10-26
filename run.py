@@ -115,7 +115,7 @@ def example_theory():
 
     # Add custom constraints by creating formulas with the variables you created. 
     print("player cards: ", player_cards)
-    # CCONSTRIANT: If player has card(a,b), then Opponent does not have card(a,b)
+    # CCONSTRAINT: If player has card(a,b), then Opponent does not have card(a,b)
     for card in player_cards:
         E.add_constraint(Player(card[0], card[1]) >> ~Opponent(card[0], card[1]))
 
