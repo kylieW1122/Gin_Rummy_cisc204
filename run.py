@@ -57,11 +57,12 @@ class Pl_run(Hashable):
 
 @proposition(E)
 class Pl_set(Hashable):
-    def __init__(self, related_cards):
-        self.related_set_cards = related_cards
+    def __init__(self, rank, suit):
+        self.rank = rank
+        self.excluded_suit = suit
 
     def __str__(self):
-        return f"player_set_[{self.related_set_cards}]"
+        return f"player_set_{self.rank}_{self.excluded_suit}"
     
 @proposition(E)
 class Want(Hashable):
@@ -126,8 +127,13 @@ def example_theory():
     pl_cards_dict = cardlist_to_dict(sorted(player_cards))
     for el_set in pl_cards_dict.items():
         if (len(el_set[1])>2):
-            print("there exist a set", el_set)
-            # E.add_constraint(Pl_run)
+            excl_suit = 'Z'
+            temp_set = sorted(el_set[1])
+            for el in temp_set:
+                if el not in SUITS:
+                    excl_suit = el
+            print("there exist a set", el_set, "with exclude: ", excl_suit)
+            # E.add_constraint(Pl_set(el_set[0], suit))
     #CONSTRAINT: If player does not have the card and opponent have no 
 
 
