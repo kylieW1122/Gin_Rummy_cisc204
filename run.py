@@ -90,9 +90,6 @@ def initial_game():
     random.shuffle(deck)
     # distribute cards to the player and opponent
     player_cards = deck[:NUM_OF_CARDS]
-
-    sorted(player_cards)
-
     # opponent = Player('Opponent', deck[NUM_OF_CARDS:NUM_OF_CARDS*2])
     # deck = deck[NUM_OF_CARDS*2:]
     # print("deck:", deck)
