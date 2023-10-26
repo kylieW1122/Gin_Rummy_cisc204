@@ -90,12 +90,16 @@ def initial_game():
     random.shuffle(deck)
     # distribute cards to the player and opponent
     player_cards = deck[:NUM_OF_CARDS]
+
+    sorted(player_cards)
+
     # opponent = Player('Opponent', deck[NUM_OF_CARDS:NUM_OF_CARDS*2])
     # deck = deck[NUM_OF_CARDS*2:]
     # print("deck:", deck)
     # print(player_cards)
     # print(opponent)
     return player_cards
+
 
 
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
@@ -122,7 +126,7 @@ def example_theory():
     #CONSTRAINT: check in player_cards for RUNS
         
     #CONSTRAINT: check in player_cards for SETS
-    pl_cards_dict = cardlist_to_dict(player_cards)
+    pl_cards_dict = cardlist_to_dict(sorted(player_cards))
     for el_set in pl_cards_dict.items():
         if (len(el_set[1])>2):
             print("there exist a set", el_set)
