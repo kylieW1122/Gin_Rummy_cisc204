@@ -120,13 +120,12 @@ def example_theory():
     # CCONSTRAINT: If player has card(a,b), then Opponent does not have card(a,b)
     for card in player_cards:
         E.add_constraint(Player(card[0], card[1]) >> ~Opponent(card[0], card[1]))
-
-    #CONSTRAINT: check in player_cards for RUNS
         
     #CONSTRAINT: check in player_cards for SETS
     pl_cards_dict = cardlist_to_dict(sorted(player_cards))
     for el_set in pl_cards_dict.items():
         if (len(el_set[1])>2):
+
             excl_suit = 'Z'
             temp_set = sorted(el_set[1])
             for el in temp_set:
@@ -134,6 +133,9 @@ def example_theory():
                     excl_suit = el
             print("there exist a set", el_set, "with exclude: ", excl_suit)
             # E.add_constraint(Pl_set(el_set[0], suit))
+    #CONSTRAINT: check in player_cards for RUNS
+    is_consecutive = all(pl_cards_dict[i] == pl_cards_dict[i-1] + 1 for i in range(1, len(pl_cards_dict)))
+    print(is_consecutive)
     #CONSTRAINT: If player does not have the card and opponent have no 
 
 
