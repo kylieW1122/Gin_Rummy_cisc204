@@ -12,9 +12,7 @@ RANKS = (1,2,3,4,5,6,7,8,9) # tuple: ordered and unchangable data structure
 SUITS = ('A', 'B', 'C', 'D')
 NUM_OF_CARDS = 10
 #-------------Global Variables-------------
-deck = []
-discard = []
-player_cards = []
+global deck, discard, player_cards
 
 # Encoding that will store all of your constraints
 E = Encoding()
@@ -132,7 +130,8 @@ def initial_game():
 #  what the expectations are.
 def example_theory():
     # INITIALIZE VARIABLES for the game
-    player_cards = initial_game()
+    global player_cards 
+    player_cards= initial_game()
     opp_pick_card = deck[NUM_OF_CARDS*2]
     opp_discard_card = None # FIXME: randomize opponent discard card? or make if-statment to determine according to opp's cards
 
