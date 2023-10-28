@@ -137,15 +137,18 @@ def example_theory():
 
     # Add custom constraints by creating formulas with the variables you created. 
     #-------------------------------------------------------------------------------------------------------
-    # CONSTRAINT: If player has card(a,b), then Opponent does not have card(a,b)
+    # CONSTRAINT: If the card is in player card list, then the player must have that card
+    #             If player has card(a,b), then Opponent does not have card(a,b)
     #-------------------------------------------------------------------------------------------------------
     for card in player_cards:
+        E.add_constraint(Player(card[0], card[1]))
         E.add_constraint(Player(card[0], card[1]) >> ~Opponent(card[0], card[1]))
     #-------------------------------------------------------------------------------------------------------
     # CONSTRAINT: check in player_cards for SETS
     #-------------------------------------------------------------------------------------------------------
     pl_cards_dict = cardlist_to_dict(sorted(player_cards)) # pl_card_dict = {1:{'A','B'}, ....}
     print('player cards: ', pl_cards_dict)
+    print('opponent pick up:', opp_pick_card)
     for el_set in pl_cards_dict.items():
         if (len(el_set[1])>2):
             excl_suit_list = list(set(SUITS).difference(el_set[1]))
@@ -221,7 +224,6 @@ if __name__ == "__main__":
     print("\nSatisfiable: %s" % T.satisfiable())
     print("# Solutions: %d" % count_solutions(T))
     print("   Solution: %s" % T.solve())
-
     # print("\nVariable likelihoods:")
     # for v,vn in zip([a,b,c,x,y,z], 'abcxyz'):
     #     # Ensure that you only send these functions NNF formulas
