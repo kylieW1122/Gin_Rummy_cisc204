@@ -183,31 +183,6 @@ def meld_list_generator(remaining_cards:list) -> list:
     # print('wanting:', wanting_list)
     return existing_meld_list, remaining_cards, potential_meld_list, wanting_list
 
-def initial_game() -> None :
-    # reset the two global variable and create a shuffled deck
-    global deck, player_cards, opponent_cards, deck_index, opp_pick_card, opp_info_list
-    global discard
-    discard = []
-    deck = list (product (RANKS, SUITS))
-    random.shuffle(deck)
-    # distribute cards to the player and opponent
-    player_cards = deck[:NUM_OF_CARDS]
-    opponent_cards = deck[NUM_OF_CARDS:NUM_OF_CARDS*2]
-    opp_info_list = meld_list_generator(list(opponent_cards))
-    deck_index = NUM_OF_CARDS*2
-    # If the initial displayed card is in opponent's wanting list
-    print('initial card:', deck[deck_index])
-    print('opponent cards before pick:', opponent_cards)
-    if deck[deck_index] in opp_info_list[3]:
-        opp_pick_card = deck[deck_index] # opponent pick up the first facing up card
-        opponent_cards.append(opp_pick_card)
-    else: 
-        opp_pick_card = None
-    deck_index +=1 
-    # deck = deck[NUM_OF_CARDS*2:]
-    # print("deck:", deck)
-    # print(player_cards)
-    # print(opponent)
 # Different classes for propositions are useful because this allows for more dynamic constraint creation
 # for propositions within that class. For example, you can enforce that "at least one" of the propositions
 # that are instances of this class must be true by using a @constraint decorator.
@@ -223,7 +198,6 @@ def initial_game() -> None :
 def example_theory():
     # INITIALIZE VARIABLES for the game
     global player_cards, opponent_cards, deck_index, opp_pick_card, opp_info_list
-    initial_game()
 
     # Add custom constraints by creating formulas with the variables you created. 
     #-------------------------------------------------------------------------------------------------------
@@ -357,10 +331,30 @@ def print_solution(sol):
     return
 
 
+def initial_game() -> None :
+    # reset the two global variable and create a shuffled deck
+    global deck, player_cards, opponent_cards, deck_index, opp_pick_card, opp_info_list
+    global discard
+    discard = []
+    deck = list (product (RANKS, SUITS))
+    random.shuffle(deck)
+    # distribute cards to the player and opponent
+    player_cards = deck[:NUM_OF_CARDS]
+    opponent_cards = deck[NUM_OF_CARDS:NUM_OF_CARDS*2]
+    opp_info_list = meld_list_generator(list(opponent_cards))
+    deck_index = NUM_OF_CARDS*2
+    # If the initial displayed card is in opponent's wanting list
+    print('initial card:', deck[deck_index])
+    print('opponent cards before pick:', opponent_cards)
+    if deck[deck_index] in opp_info_list[3]:
+        opp_pick_card = deck[deck_index] # opponent pick up the first facing up card
+        opponent_cards.append(opp_pick_card)
+    else: 
+        opp_pick_card = None
+    deck_index +=1 
 
 if __name__ == "__main__":
-    # my_list = [(1, 'A'), (2, 'A'), (2, 'B'), (3, 'A'), (7, 'A'), (8, 'A'), (8, 'B'), (8, 'C'), (8, 'D'), (9, 'A')]
-    # discard_list_generator(my_list, None)
+    initial_game()
     T = example_theory()
     # Don't compile until you're finished adding all your constraints!
     T = T.compile()
@@ -370,6 +364,7 @@ if __name__ == "__main__":
     print("# Solutions: %d" % count_solutions(T))
     print("   Solution: %s" % T.solve())
     print_solution(T.solve())
+    
     # print("\nVariable likelihoods:")
     # for v,vn in zip([a,b,c,x,y,z], 'abcxyz'):
     #     # Ensure that you only send these functions NNF formulas
