@@ -286,33 +286,11 @@ def example_theory():
     #-------------------------------------------------------------------------------------------------------
     if opp_pick_card == None:
         E.add_constraint(~Opp_pick(initial_card[0], initial_card[1]))
-        combination_list = list(combinations(excl_suit_list, 2))
-        combination_list.append(excl_suit_list) # add possible set of 4 with opp_pick_card
-        # print('all combination of sets with card', opp_pick_card,':', combination_list)
-        for comb in combination_list:
-            temp_list = []
-            for each_suit in comb:
-                temp_list.append(~Opponent(initial_card[0], each_suit))
-            predecessors.append(And(temp_list))
-        # list of all possible RUNS with opp_pick_card:
-        temp_list = [initial_card[0]]
-        opp_c_list = []
-        for upper_r in range(initial_card[0]+1, RANKS[-1]+1):
-            temp_list.append(upper_r)
-            for x in list(temp_list):
-                opp_c_list.append(~Opponent(x, initial_card[1]))
-            predecessors.append(And(list(opp_c_list))) # a copy of the current list with opp card objects
-        temp_list = [initial_card[0]]
-        opp_c_list = []
-        for lower_r in reversed(range(RANKS[0], initial_card[0])):
-            temp_list.insert(0, lower_r)
-            for x in list(temp_list):
-                opp_c_list.append(~Opponent(x, initial_card[1]))
-            predecessors.append(And(list(opp_c_list))) # a copy of the current list with opp card objects
-        E.add_constraint(~Opp_pick(initial_card[0], initial_card[1])>> Or(predecessors))
+        E.add_constraint(~Opp_pick(initial_card[0], initial_card[1]) >> ~Opponent(deck[deck_index][0], deck[deck_index][1]))
+        opp_not_list.append(initial_card)
     else:
+        temp_opp_card = Opponent(initial_card[0], initial_card[1])
         E.add_constraint(Opp_pick(initial_card[0], initial_card[1]))
-        E.add_constraint(Opponent(initial_card[0], initial_card[1]))
         E.add_constraint(Opp_pick(initial_card[0], initial_card[1]) >> Opponent(initial_card[0], initial_card[1]))
         predecessors = temp_opp_card.related_cards()
         E.add_constraint(Opp_pick(initial_card[0], initial_card[1])>> Or(predecessors)) # FIXME: Find a way to print it out and verify the AND and OR is correct
