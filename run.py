@@ -8,8 +8,8 @@ import random
 from nnf import config
 config.sat_backend = "kissat"
 
-#----------------Constants-----------------
-RANKS = (1,2,3,4,5,6,7,8,9) # tuple: ordered and unchangable data structure
+#----------------Constants----------------- # feel free to change the size of the deck and see what the model suggests
+RANKS = (1,2,3,4,5,6,7,8,9) 
 SUITS = ('A', 'B', 'C', 'D')
 NUM_OF_CARDS = 10
 #-------------Global Variables-------------
@@ -204,7 +204,6 @@ def meld_list_generator(remaining_cards:list) -> list:
                     elif num_of_con_term == 2: 
                         potential_meld_list.append((temp_list[index-1], el_suit))
                         potential_meld_list.append((temp_list[index], el_suit))
-                        # remaining_cards = remove_card_from_list(remaining_cards, temp_list[index-1:index+1], None, el_suit)
                         if temp_list[index-1] > RANKS[0]:
                             wanting_list.append((temp_list[index-1]-1, el_suit))
                         if temp_list[index]+1 < RANKS[-1]:
@@ -233,28 +232,11 @@ def meld_list_generator(remaining_cards:list) -> list:
             for diff_s in temp_diff_suit:
                 wanting_list.append((el_rank, diff_s))
     wanting_list = list(set(wanting_list))
-    # print('existing melds:', existing_meld_list)
-    # print('remaining cards:', sorted(remaining_cards))
     potential_meld_list = list(set(potential_meld_list))
-    remaining_cards = list(set(remaining_cards).difference(potential_meld_list))
-    # print('remaining cards:', sorted(remaining_cards))
-    # print('wanting:', sorted(wanting_list))
+    remaining_cards = list(set(remaining_cards).difference(potential_meld_list)) # remaining card = all cards - melds - potential melds
     return existing_meld_list, remaining_cards, wanting_list, potential_meld_list
 
-# Different classes for propositions are useful because this allows for more dynamic constraint creation
-# for propositions within that class. For example, you can enforce that "at least one" of the propositions
-# that are instances of this class must be true by using a @constraint decorator.
-# other options include: at most one, exactly one, at most k, and implies all.
-# For a complete module reference, see https://bauhaus.readthedocs.io/en/latest/bauhaus.html
-
-
-# Build an example full theory for your setting and return it.
-#
-#  There should be at least 10 variables, and a sufficiently large formula to describe it (>50 operators).
-#  This restriction is fairly minimal, and if there is any concern, reach out to the teaching staff to clarify
-#  what the expectations are.
 def example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list):
-    # INITIALIZE VARIABLES for the game
     global deck, discarded_pile
     opp_not_list = []
     # Add custom constraints by creating formulas with the variables you created. 
@@ -262,7 +244,7 @@ def example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_disca
     # CONSTRAINT: Card(a,b) is either in the player's hand, the opponent's hand, or in the deck. 
     #-------------------------------------------------------------------------------------------------------
     for card in deck:
-        E.add_constraint(~(Player(card[0], card[1]) & Opponent(card[0], card[1]) & Deck(card[0], card[1])))
+        constraint.add_exactly_one(E, Player(card[0], card[1]),  Opponent(card[0], card[1]), Deck(card[0], card[1]))
     #-------------------------------------------------------------------------------------------------------
     # CONSTRAINT: If the card is in player card list, then the player must have that card
     #             If player has card(a,b), then Opponent does not have card(a,b)
@@ -349,42 +331,16 @@ def example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_disca
     #-------------------------------------------------------------------------------------------------------
     pl_info_list = meld_list_generator(list(player_cards))
     pl_wanting_list = pl_info_list[2]
-    print("wanting: ", pl_wanting_list)
     for wanting_c in pl_wanting_list:
         E.add_constraint(Pl_want(wanting_c[0], wanting_c[1]))
         E.add_constraint(Opponent(wanting_c[0], wanting_c[1]) >> ~ Pl_want(wanting_c[0], wanting_c[1]))
-    # You can also add more customized "fancy" constraints. Use case: you don't want to enforce "exactly one"
-    # for every instance of BasicPropositions, but you want to enforce it for a, b, and c.:
-    # constraint.add_exactly_one(E, a, b, c)
-    
-    # print('player cards: ', sorted(player_cards)) 
-    # print('opponent cards after pick or not pick:', sorted(opponent_cards)) 
-    # print('opponent pick up:', opp_pickup_list)
-    # print('opponent discard:', opp_discard_list)
     return E
-
-def print_solution(sol):
-    global deck
-    opp_possible_card = []
-    for card in deck:
-        if sol != None and Opponent(card[0], card[1]) in sol and sol[Opponent(card[0], card[1])]:
-            opp_possible_card.append((card[0], card[1]))
-    print('opponent potentially holding cards: ', sorted(opp_possible_card))
-    if sol != None:
-        for value in dict(sol):
-        # print(value)
-            if sol != None and sol[value] == True:
-                temp_str = str(value)
-                if temp_str.__contains__("player_"):
-                    print(value)
-    return opp_possible_card
 
 def initial_game() -> None :
     global deck
     deck = list (product (RANKS, SUITS))
     random.shuffle(deck)
-    # distribute cards to the player and opponent
-    player_cards = deck[:NUM_OF_CARDS]
+    player_cards = deck[:NUM_OF_CARDS] # distribute cards to the player and opponent
     opponent_cards = deck[NUM_OF_CARDS:NUM_OF_CARDS*2]
     return player_cards, opponent_cards 
 
@@ -421,13 +377,11 @@ def one_round_of_game_opp_pl(deck_index, discard_pile_top_card, player_cards, op
         discard_pile_top_card = pl_info_list[3][-1] # pl_info_list[3] = potential_melds
     player_cards.remove(discard_pile_top_card)
     # OPPONENT'S TURN
-    # Opponent picks up the card in the discarding pile, i.e. the previous player discarded card
     # -------------- Step 2: opponent takes a card either from the discarding pile or draw a new card -------------- 
     if discard_pile_top_card in opp_info_list[2]: # if the card is in the opponent wanting list 
         opp_pickup = True        
         opponent_cards.append(discard_pile_top_card)
-    # Opponent does not pick up and decide to draw a new card
-    else:
+    else: # Opponent does not pick up and decide to draw a new card
         opp_pickup = False
         discarded_pile.append(discard_pile_top_card)
         if deck_index >= len(deck):
@@ -445,12 +399,27 @@ def one_round_of_game_opp_pl(deck_index, discard_pile_top_card, player_cards, op
 
     return deck_index, player_cards, opponent_cards, opp_pickup, opp_discard # opp_pickup = true/false, card he pick up == discard_pile_top_card
 
+def print_sol_opp_holding(sol):
+    global deck
+    opp_possible_cards = []
+    player_want_cards = []
+    for card in deck:
+        if sol != None and Opponent(card[0], card[1]) in sol and sol[Opponent(card[0], card[1])]:
+            opp_possible_cards.append((card[0], card[1]))
+        elif sol != None and Pl_want(card[0], card[1]) in sol and sol[Pl_want(card[0], card[1])]:
+            player_want_cards.append((card[0], card[1]))
+    # if sol != None:
+    #     for value in dict(sol):
+    #         if sol != None and sol[value] == True:
+    #             temp_str = str(value)
+    #             if temp_str.__contains__("player_"):
+    #                 print(value)
+    return opp_possible_cards # , player_want_cards
+
 if __name__ == "__main__":
-    print("---------------------------- Exploration 1: ----------------------------")
-    # ================= Exploration 1: Given the game runs for a few turns, guess the cards that the opponent is holding =================
     TOTAL_ROUNDS = 3
+    # ================= Exploration 1: Given the game runs for a few turns, guess the cards that the opponent is holding =================
     initial_info = initial_game()
-    # deck = initial_info[0]
     deck_index = NUM_OF_CARDS*2
     discard_pile_top_card = deck[deck_index]
     deck_index = deck_index + 1
@@ -477,57 +446,60 @@ if __name__ == "__main__":
                 opp_not_pickup_list.append(discard_pile_top_card)
             opp_discard_list.append(updated_game_status[4])
             discard_pile_top_card = updated_game_status[4]
-            # print("\n-----------------AFTER-----------------------")
-            # print("player:", sorted(player_cards))
-            # print("opponent: ", sorted(opponent_cards))
 
-    T = example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list)
-    print("player cards:", sorted(player_cards))
-    print("opponent cards:", sorted(opponent_cards)) # FIXME: delete this after, the model should not leak any opponent information
-    # Don't compile until you're finished adding all your constraints!
-    T = T.compile()
+    T1 = example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list)
+    T1 = T1.compile()
+
     # After compilation (and only after), you can check some of the properties
     # of your model:
-    print("\nSatisfiable: %s" % T.satisfiable())
-    print("# Solutions: %d" % count_solutions(T))
-    # print("   Solution: %s" % T.solve())
-    sol = T.solve()
-    # print(sol)
-    my_list = print_solution(sol)
-    print("\n---------------------------- Exploration 2: ----------------------------")
+    solution = T1.solve()
+    satisfiable = T1.satisfiable()
+    print("Game status: ")    
+    print("Player cards:", sorted(player_cards))
+    print("Opponent cards:", sorted(opponent_cards), "\n")
+
+    print("|-------- Exploration 1: Play the game", TOTAL_ROUNDS,"rounds and find the cards that the opponent is potentially holding --------|\n")
+
+    if satisfiable == False:
+        print("The model is not satisfiable.")
+    else: 
+       
+        opp_guess = print_sol_opp_holding(solution)
+        accuarcy = 0
+        for opp_c in opp_guess:
+            if opp_c in opponent_cards:
+                accuarcy = accuarcy + 1
+        print('The opponent is potentially holding cards: ', sorted(opp_guess))
+        print(f'The model guess {accuarcy}/10 opponent cards correctly.')
+    print("|-------------------------------------------------------------------------------------------------------------------|\n")
+
     # ================= Exploration 2: Given this facing up card, how should the player make the best move? =================
-    # initial_info = initial_game()
-    print("player cards:", sorted(player_cards))
+    print("Game status: ")
     print("the card facing up is ", discard_pile_top_card)
+    print("the cards have been discarded are:", sorted(discarded_pile))
+    print("Player cards:", sorted(player_cards), "\n")
+    print("|------------- Exploration 2: Given a state of the game, determine whether the player's best next step -------------|\n")
+
+    # T_NP is the model if player does not pick up
+    discarded_pile.append(discard_pile_top_card)
+    T_NP = example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list)
+    T_NP = T_NP.compile()
+
+    # T_P is the model if the player picks up the card
+    discarded_pile.remove(discard_pile_top_card)
     player_cards.append(discard_pile_top_card)
-    print("player cards:", sorted(player_cards))
+    T_P = example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list)
+    T_P = T_P.compile()
 
-    pickUp_T = example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list)
-    pickUp_T = pickUp_T.compile()
-    print("\nSatisfiable: %s" % pickUp_T.satisfiable())
-    print("# Solutions: %d" % count_solutions(pickUp_T))
-    
-    t_sol = count_solutions(T)
-    pick_up_sol = count_solutions(pickUp_T)
-
-    if pick_up_sol-t_sol > 0: # there exist more model if the player picks up the discarding card.  
-        print("The model suggests the player to pick up the card ", discard_pile_top_card, " from the discarding pile. ") 
-    elif pick_up_sol-t_sol == 0: # there is no difference in the number of solution that satisfy the model if the player picks up or not
-        print("the number of solutions is the same either the player picks up the card or not.")
-    else: # there exist more model if the player does NOT pick up the discarding card, i.e. should draw a new card from the deck  
-        print("The model suggests the player to draw a new card from the deck. ") 
-    
-    # print("   Solution: %s" % pickUp_T.solve())
-
-    # print("\nVariable likelihoods:")
-    # temp_list = []
-    # for element in my_list:
-    #     u = Opponent(element[0], element[1])
-    #     temp_list.append(u)
-    #     # print(u)
-    # for v, vn in zip(temp_list, temp_list):
-            # Ensure that you only send these functions NNF formulas
-            # Literals are compiled to NNF here
-    #     print(" %s: %.2f" % (vn, likelihood(T, v)))
-
+    n_pick_up_sol = count_solutions(T_NP)
+    pick_up_sol = count_solutions(T_P)
+    if not T_P.satisfiable() or not T_NP.satisfiable():
+        print("The model is not satisfiable.")
+    else:
+        if pick_up_sol-n_pick_up_sol > 0: # there exist more model if the player picks up the discarding card.  
+            print("The model suggests the player to pick up the card ", discard_pile_top_card, " from the discarding pile. ") 
+        elif pick_up_sol == n_pick_up_sol: # there is no difference in the number of solution that satisfy the model if the player picks up or not
+            print("the number of solutions is the same either the player picks up the card or not.")
+        else: # there exist more model if the player does NOT pick up the discarding card, i.e. should draw a new card from the deck, OR there is solution that satisfy the model
+            print("The model suggests the player to draw a new card from the deck. ") 
     print()
