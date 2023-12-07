@@ -1,4 +1,3 @@
-
 from typing import Any
 from bauhaus import Encoding, proposition, constraint, Or, And
 from bauhaus.utils import count_solutions, likelihood
@@ -247,19 +246,22 @@ def example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_disca
     global deck, discarded_pile
     opp_not_want_list = []
     #-------------------------------------------------------------------------------------------------------
-    # CONSTRAINT: Card(a,b) is either in the player's hand, the opponent's hand, or in the deck. 
+    # CONSTRAINT: Card(a,b) is either in the player's hand, the opponent's hand, the deck, or in the dump. 
+    #             If card(a,b) is in the deck, then the player want it
+    #             If card(a,b) is in the dump, or in the opponent's hand, or in the player's hand, then the player does not want it
     #-------------------------------------------------------------------------------------------------------
     for card in deck:
         constraint.add_exactly_one(E, Player(card[0], card[1]), Opponent(card[0], card[1]), Deck(card[0], card[1]), Dump(card[0], card[1]))
+        E.add_constraint(Deck(card[0],card[1])>> Pl_want(card[0], card[1]))
+        E.add_constraint((Dump(card[0], card[1]) | Opponent(card[0],card[1]) | Player(card[0],card[1]) ) >> ~Pl_want(card[0], card[1]))
     #-------------------------------------------------------------------------------------------------------
     # CONSTRAINT: If the card is in player card list, then the player must have that card
-    #             If player has card(a,b), then Opponent does not have card(a,b)
     #-------------------------------------------------------------------------------------------------------
     for card in player_cards:
         E.add_constraint(Player(card[0], card[1]))
     #-------------------------------------------------------------------------------------------------------
-    # CONSTRAINT: check in player_cards for SETS
-    #             check in player_cards for RUNS
+    # CONSTRAINT: Definition of a SET in player_cards
+    #             Definition of a RUN in player_cards
     #-------------------------------------------------------------------------------------------------------
     pl_info_list = meld_list_generator(list(player_cards))
     for meld in pl_info_list[0]: # [('A', [3, 4, 5]), (8, {'A', 'C', 'B', 'D'})]
@@ -290,7 +292,6 @@ def example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_disca
     #-------------------------------------------------------------------------------------------------------
     # CONSTRAINT: If the opponent discards a card of “a” rank and “b” suit, the opponent does not have any meld related to that card. 
     #-------------------------------------------------------------------------------------------------------
-    # Opponent: randomly pick a card to discard from the cards that does not make a meld
     for opp_discard_card in opp_discard_list:
         E.add_constraint(Opp_discard(opp_discard_card[0], opp_discard_card[1])) 
         E.add_constraint(Opp_discard(opp_discard_card[0], opp_discard_card[1]) >> ~Opponent(opp_discard_card[0], opp_discard_card[1]))
@@ -326,11 +327,6 @@ def example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_disca
             predecessors.append(~(And(list(opp_c_list)))) # a copy of the current list with opp card objects
         E.add_constraint(Opp_discard(card[0], card[1]) >> Or(predecessors))
         E.add_constraint(~Opp_pick(card[0], card[1]) >> Or(predecessors))    
-    #-------------------------------------------------------------------------------------------------------
-    # CONSTRAINT: If a card is in the discarding pile, it is true that the card is dumped.
-    #-------------------------------------------------------------------------------------------------------
-    # for discarded_card in discarded_pile:
-    #     E.add_constraint(Dump(discarded_card[0], discarded_card[1]))
     #-------------------------------------------------------------------------------------------------------
     # CONSTRAINT: If the opponent has card(a,b), we assume they will not discard it, so the player does not want that card
     #-------------------------------------------------------------------------------------------------------
@@ -411,7 +407,7 @@ def one_round_of_game_opp_pl(deck_index, discard_pile_top_card, player_cards, op
     opponent_cards.remove(opp_discard)
     discard_pile_top_card = opp_discard
     description_str = description_str + " and discard " + str(discard_pile_top_card) + "."
-    return deck_index, player_cards, opponent_cards, opp_pickup, opp_discard, description_str # opp_pickup = true/false, card he pick up == discard_pile_top_card
+    return deck_index, player_cards, opponent_cards, opp_pickup, opp_discard, description_str
 
 def print_sol_opp_holding(sol):
     global deck
@@ -434,10 +430,20 @@ def count_pl_meld(sol):
                     pl_meld_num = pl_meld_num + 1
     return pl_meld_num
 
+def suggest_player_want_list(sol):
+    pl_wants= []
+    if sol != None:
+        for value in dict(sol):
+            if sol != None and sol[value] == True:
+                temp_str = str(value)
+                if temp_str.__contains__("player_want"):
+                    # print((temp_str[12:-1], temp_str[-1])) 
+                    # print(temp_str + "\n")
+                    pl_wants.append((temp_str[12:-1], temp_str[-1]))
+    return pl_wants
 if __name__ == "__main__":
-    TOTAL_ROUNDS = 3
+    TOTAL_ROUNDS = 2
     print("|-------- Exploration 1: Play the game", TOTAL_ROUNDS,"rounds and find the cards that the opponent is potentially holding --------|\n")
-
     # ================= Exploration 1: Given the game runs for a few turns, guess the cards that the opponent is holding =================
     initial_info = initial_game()
     deck_index = NUM_OF_CARDS*2
@@ -469,14 +475,10 @@ if __name__ == "__main__":
                 opp_not_pickup_list.append(updated_game_status[3][1])
             opp_discard_list.append(updated_game_status[4])
             discard_pile_top_card = updated_game_status[4]
-    # print(f"status: pick:{opp_pickup_list}, not pick: {opp_not_pickup_list}, discard: {opp_discard_list}\n", discarded_pile)
+
     T1 = example_theory(player_cards, opp_pickup_list, opp_not_pickup_list, opp_discard_list)
     T1 = T1.compile()
-
-    # After compilation (and only after), you can check some of the properties
-    # of your model:
     solution = T1.solve()
-    # print(T1)
     satisfiable = T1.satisfiable()
     print("\nPlayer cards:", sorted(player_cards))
     print("Opponent cards:", sorted(opponent_cards), "\n")
@@ -498,8 +500,8 @@ if __name__ == "__main__":
     # ================= Exploration 2: Given this facing up card, how should the player make the best move? =================
     print("\n\n|------------- Exploration 2: Given a state of the game, determine whether the player's best next step -------------|\n")
 
-    print("the card facing up is ", discard_pile_top_card)
-    print("the cards have been discarded are:", sorted(discarded_pile))
+    print("The card facing up is ", discard_pile_top_card)
+    print("Cards have been discarded are:", sorted(discarded_pile))
     print("Player cards:", sorted(player_cards), "\n")
 
     # T_NP is the model if player does not pick up
@@ -517,6 +519,8 @@ if __name__ == "__main__":
     pick_up_sol = count_solutions(T_P)
     p_meld = count_pl_meld(T_P.solve())
 
+    pl_wants = suggest_player_want_list(T_P.solve())
+    print("The model sugguest the cards that the player should want are:\n", sorted(pl_wants))
     print("\n----------------- Exploration 2 OUTPUT: -----------------\n")
 
     if not T_P.satisfiable() and not T_NP.satisfiable():
