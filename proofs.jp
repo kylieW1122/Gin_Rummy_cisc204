@@ -1,0 +1,228 @@
+﻿CONJECTUREPANEL MostEpicSequents
+PROOF "DuAB, ¬DeAB→¬PWAB, DuAB→¬(PAB∨TAB∨DeAB) ⊢ ¬PWAB"
+INFER DuAB,
+     ¬DeAB→¬PWAB,
+     DuAB→¬(PAB∨TAB∨DeAB)
+     ⊢ ¬PWAB 
+FORMULAE
+0 ¬PWAB,
+1 ¬DeAB,
+2 ¬DeAB→¬PWAB,
+3 ⊥,
+4 ¬(PAB∨TAB∨DeAB),
+5 PAB∨TAB∨DeAB,
+6 DeAB,
+7 PAB∨TAB,
+8 DuAB,
+9 DuAB→¬(PAB∨TAB∨DeAB),
+10 ¬(PAB∨TAB∨DeAB)
+IS
+SEQ (cut[B,C\10,0]) ("→ elim"[A,B\8,10]) (hyp[A\9]) (hyp[A\8]) (cut[B,C\1,0]) ("¬ intro"[A\6]) (cut[B,C\5,3]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\7,6]) (hyp[A\6])) (cut[B,C\3,3]) ("¬ elim"[B\5]) (hyp[A\5]) (hyp[A\4]) (hyp[A\3]) (cut[B,C\0,0]) ("→ elim"[A,B\1,0]) (hyp[A\2]) (hyp[A\1]) (hyp[A\0])
+END
+CONJECTUREPANEL MostEpicSequents
+PROOF "¬P→(T∨D), ¬T ⊢ ¬P→D"
+INFER ¬P→(T∨D),
+     ¬T 
+     ⊢ ¬P→D 
+FORMULAE
+0 D,
+1 ⊥,
+2 ¬T,
+3 T,
+4 T∨D,
+5 ¬P,
+6 ¬P→T∨D,
+7 ¬P→(T∨D)
+IS
+SEQ ("→ intro"[A,B\5,0]) (cut[B,C\4,0]) ("→ elim"[A,B\5,4]) (hyp[A\6]) (hyp[A\5]) ("∨ elim"[A,B,C\3,0,0]) (hyp[A\4]) (cut[B,C\3,0]) (hyp[A\3]) (cut[B,C\1,0]) ("¬ elim"[B\3]) (hyp[A\3]) (hyp[A\2]) ("contra (constructive)"[B\0]) (hyp[A\1]) (hyp[A\0])
+END
+CONJECTUREPANEL MostEpicSequents
+PROOF "PAB, ¬DeAB→¬PWAB, PAB→¬(TAB∨DeAB∨DuAB) ⊢ ¬PWAB"
+INFER PAB,
+     ¬DeAB→¬PWAB,
+     PAB→¬(TAB∨DeAB∨DuAB)
+     ⊢ ¬PWAB 
+FORMULAE
+0 ¬PWAB,
+1 ¬DeAB,
+2 ¬DeAB→¬PWAB,
+3 ⊥,
+4 ¬(TAB∨DeAB∨DuAB),
+5 TAB∨DeAB∨DuAB,
+6 TAB∨DeAB,
+7 DuAB,
+8 DeAB,
+9 TAB,
+10 PAB,
+11 PAB→¬(TAB∨DeAB∨DuAB),
+12 ¬(TAB∨DeAB∨DuAB)
+IS
+SEQ (cut[B,C\12,0]) ("→ elim"[A,B\10,12]) (hyp[A\11]) (hyp[A\10]) (cut[B,C\1,0]) ("¬ intro"[A\8]) (cut[B,C\6,3]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\9,8]) (hyp[A\8])) (cut[B,C\5,3]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\7,6]) (hyp[A\6])) (cut[B,C\3,3]) ("¬ elim"[B\5]) (hyp[A\5]) (hyp[A\4]) (hyp[A\3]) (cut[B,C\0,0]) ("→ elim"[A,B\1,0]) (hyp[A\2]) (hyp[A\1]) (hyp[A\0])
+END
+CONJECTUREPANEL MostEpicSequents
+PROOF "TAB, ¬DeAB→¬PWAB, TAB→¬(PAB∨DeAB∨DuAB) ⊢ ¬PWAB"
+INFER TAB,
+     ¬DeAB→¬PWAB,
+     TAB→¬(PAB∨DeAB∨DuAB)
+     ⊢ ¬PWAB 
+FORMULAE
+0 ¬PWAB,
+1 ¬DeAB,
+2 ¬DeAB→¬PWAB,
+3 ⊥,
+4 ¬(PAB∨DeAB∨DuAB),
+5 PAB∨DeAB∨DuAB,
+6 PAB∨DeAB,
+7 DuAB,
+8 DeAB,
+9 PAB,
+10 TAB,
+11 TAB→¬(PAB∨DeAB∨DuAB),
+12 ¬(PAB∨DeAB∨DuAB)
+IS
+SEQ (cut[B,C\12,0]) ("→ elim"[A,B\10,12]) (hyp[A\11]) (hyp[A\10]) (cut[B,C\1,0]) ("¬ intro"[A\8]) (cut[B,C\6,3]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\9,8]) (hyp[A\8])) (cut[B,C\5,3]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\7,6]) (hyp[A\6])) (cut[B,C\3,3]) ("¬ elim"[B\5]) (hyp[A\5]) (hyp[A\4]) (hyp[A\3]) (cut[B,C\0,0]) ("→ elim"[A,B\1,0]) (hyp[A\2]) (hyp[A\1]) (hyp[A\0])
+END
+CONJECTUREPANEL MostEpicSequents
+PROOF "TP6B, TD7B, TP6B→T6B, TD7B→(¬T7B), TD7B→¬(T8B∧T9B)∧¬(T4B∧T5B), TP6B→((T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D)∨(T4B∧T5B)), (T6A∧T6B∧T6C)→SBAC, (T6B∧T6C∧T6D)→SBBD, (T6A∧T6B∧T6C∧T6D)→SBAD ⊢ SBAC∨SBBD∨SBAD"
+INFER TP6B,
+     TD7B,
+     TP6B→T6B,
+     TD7B→(¬T7B),
+     TD7B→¬(T8B∧T9B)∧¬(T4B∧T5B),
+     TP6B→((T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D)∨(T4B∧T5B)),
+     (T6A∧T6B∧T6C)→SBAC,
+     (T6B∧T6C∧T6D)→SBBD,
+     (T6A∧T6B∧T6C∧T6D)→SBAD 
+     ⊢ SBAC∨SBBD∨SBAD 
+FORMULAE
+0 ⊥,
+1 SBAC∨SBBD∨SBAD,
+2 ¬(T4B∧T5B),
+3 T4B∧T5B,
+4 SBAD,
+5 SBAC∨SBBD,
+6 T6A∧T6B∧T6C∧T6D,
+7 T6A∧T6B∧T6C∧T6D→SBAD,
+8 T6D,
+9 T6A∧T6B∧T6C,
+10 T6C,
+11 T6A∧T6B,
+12 T6B,
+13 T6A,
+14 T6A∧T6C,
+15 T6A∧T6C∧T6D,
+16 SBBD,
+17 SBAC,
+18 T6B∧T6C∧T6D,
+19 T6B∧T6C∧T6D→SBBD,
+20 T6B∧T6C,
+21 T6C∧T6D,
+22 T6A∧T6B∧T6C→SBAC,
+23 T6A∧T6C∨T6C∧T6D,
+24 (T6A∧T6C)∨(T6C∧T6D)∨T6A∧T6C∧T6D,
+25 (T6A∧T6C)∨(T6C∧T6D),
+26 (T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D)∨T4B∧T5B,
+27 (T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D),
+28 TP6B,
+29 TP6B→T6B,
+30 TD7B,
+31 TD7B→¬T7B,
+32 ¬T7B,
+33 ¬(T8B∧T9B)∧¬(T4B∧T5B),
+34 ¬(T8B∧T9B),
+35 TD7B→¬(T8B∧T9B)∧¬(T4B∧T5B),
+36 TP6B→(T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D)∨(T4B∧T5B),
+37 (T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D)∨(T4B∧T5B),
+38 TD7B→(¬T7B),
+39 (T6A∧T6B∧T6C∧T6D)→SBAD,
+40 (T6A∧T6B∧T6C)→SBAC,
+41 (T6B∧T6C∧T6D)→SBBD,
+42 TP6B→((T6A∧T6C)∨(T6C∧T6D)∨(T6A∧T6C∧T6D)∨(T4B∧T5B))
+IS
+SEQ (cut[B,C\37,1]) ("→ elim"[A,B\28,37]) (hyp[A\36]) (hyp[A\28]) (cut[B,C\33,1]) ("→ elim"[A,B\30,33]) (hyp[A\35]) (hyp[A\30]) (cut[B,C\2,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\34,2]) (hyp[A\33])) (cut[B,C\32,1]) ("→ elim"[A,B\30,32]) (hyp[A\31]) (hyp[A\30]) (cut[B,C\12,1]) ("→ elim"[A,B\28,12]) (hyp[A\29]) (hyp[A\28]) ("∨ elim"[A,B,C\27,3,1]) (hyp[A\26]) ("∨ elim"[A,B,C\25,15,1]) (hyp[A\24]) ("∨ elim"[A,B,C\14,21,1]) (hyp[A\23]) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\13,10]) (hyp[A\14])) (cut[B,C\13,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\13,10]) (hyp[A\14])) (cut[B,C\11,1]) ("∧ intro"[A,B\13,12]) (hyp[A\13]) (hyp[A\12]) (cut[B,C\9,1]) ("∧ intro"[A,B\11,10]) (hyp[A\11]) (hyp[A\10]) (cut[B,C\17,1]) ("→ elim"[A,B\9,17]) (hyp[A\22]) (hyp[A\9]) (cut[B,C\17,1]) (hyp[A\17]) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\16,17]) (hyp[A\17])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\8,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\10,8]) (hyp[A\21])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\10,8]) (hyp[A\21])) (cut[B,C\20,1]) ("∧ intro"[A,B\12,10]) (hyp[A\12]) (hyp[A\10]) (cut[B,C\18,1]) ("∧ intro"[A,B\20,8]) (hyp[A\20]) (hyp[A\8]) (cut[B,C\16,1]) ("→ elim"[A,B\18,16]) (hyp[A\19]) (hyp[A\18]) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\17,16]) (hyp[A\16])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\8,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\14,8]) (hyp[A\15])) (cut[B,C\14,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\14,8]) (hyp[A\15])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\13,10]) (hyp[A\14])) (cut[B,C\13,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\13,10]) (hyp[A\14])) (cut[B,C\11,1]) ("∧ intro"[A,B\13,12]) (hyp[A\13]) (hyp[A\12]) (cut[B,C\9,1]) ("∧ intro"[A,B\11,10]) (hyp[A\11]) (hyp[A\10]) (cut[B,C\6,1]) ("∧ intro"[A,B\9,8]) (hyp[A\9]) (hyp[A\8]) (cut[B,C\4,1]) ("→ elim"[A,B\6,4]) (hyp[A\7]) (hyp[A\6]) (cut[B,C\4,1]) (hyp[A\4]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\5,4]) (hyp[A\4])) (cut[B,C\0,1]) ("¬ elim"[B\3]) (hyp[A\3]) (hyp[A\2]) ("contra (constructive)"[B\1]) (hyp[A\0])
+END
+CONJECTUREPANEL MostEpicSequents
+PROOF "TD3A, TP3B, TP3B→T3B, TD3A→(¬T3A), (TD3A)→¬(T3C∧T3D), TP3B→((T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B)∨(T3C∧T3D)), (T1B∧T2B∧T3B)→RB13, (T1B∧T2B∧T3B∧T4B)→RB14, (T1B∧T2B∧T3B∧T4B∧T5B)→RB15, (T2B∧T3B∧T4B)→RB24, (T2B∧T3B∧T4B∧T5B)→RB25, (T3B∧T4B∧T5B)→RB35 ⊢ RB13∨RB14∨RB15∨RB24∨RB25∨RB35"
+INFER TD3A,
+     TP3B,
+     TP3B→T3B,
+     TD3A→(¬T3A),
+     (TD3A)→¬(T3C∧T3D),
+     TP3B→((T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B)∨(T3C∧T3D)),
+     (T1B∧T2B∧T3B)→RB13,
+     (T1B∧T2B∧T3B∧T4B)→RB14,
+     (T1B∧T2B∧T3B∧T4B∧T5B)→RB15,
+     (T2B∧T3B∧T4B)→RB24,
+     (T2B∧T3B∧T4B∧T5B)→RB25,
+     (T3B∧T4B∧T5B)→RB35 
+     ⊢ RB13∨RB14∨RB15∨RB24∨RB25∨RB35 
+FORMULAE
+0 ⊥,
+1 RB13∨RB14∨RB15∨RB24∨RB25∨RB35,
+2 ¬(T3C∧T3D),
+3 T3C∧T3D,
+4 RB35,
+5 RB13∨RB14∨RB15∨RB24∨RB25,
+6 T3B∧T4B∧T5B,
+7 T3B∧T4B∧T5B→RB35,
+8 T5B,
+9 T3B∧T4B,
+10 T4B,
+11 T3B,
+12 T4B∧T5B,
+13 RB25,
+14 RB13∨RB14∨RB15∨RB24,
+15 T2B∧T3B∧T4B∧T5B,
+16 T2B∧T3B∧T4B∧T5B→RB25,
+17 T2B∧T3B∧T4B,
+18 T2B∧T3B,
+19 T2B,
+20 T2B∧T4B,
+21 T2B∧T4B∧T5B,
+22 RB24,
+23 RB13∨RB14∨RB15,
+24 T2B∧T3B∧T4B→RB24,
+25 RB15,
+26 RB13∨RB14,
+27 T1B∧T2B∧T3B∧T4B∧T5B,
+28 T1B∧T2B∧T3B∧T4B∧T5B→RB15,
+29 T1B∧T2B∧T3B∧T4B,
+30 T1B∧T2B∧T3B,
+31 T1B∧T2B,
+32 T1B∧T2B∧T4B,
+33 T1B∧T2B∧T4B∧T5B,
+34 RB14,
+35 RB13,
+36 T1B∧T2B∧T3B∧T4B→RB14,
+37 T1B∧T2B∧T3B→RB13,
+38 T1B∧T2B∨T1B∧T2B∧T4B,
+39 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨T1B∧T2B∧T4B∧T5B,
+40 (T1B∧T2B)∨(T1B∧T2B∧T4B),
+41 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨T2B∧T4B,
+42 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B),
+43 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨T2B∧T4B∧T5B,
+44 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B),
+45 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨T4B∧T5B,
+46 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B),
+47 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B)∨T3C∧T3D,
+48 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B),
+49 TP3B,
+50 TP3B→T3B,
+51 TD3A,
+52 TD3A→¬T3A,
+53 ¬T3A,
+54 TD3A→¬(T3C∧T3D),
+55 TP3B→(T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B)∨(T3C∧T3D),
+56 (T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B)∨(T3C∧T3D),
+57 TD3A→(¬T3A),
+58 (T1B∧T2B∧T3B)→RB13,
+59 TP3B→((T1B∧T2B)∨(T1B∧T2B∧T4B)∨(T1B∧T2B∧T4B∧T5B)∨(T2B∧T4B)∨(T2B∧T4B∧T5B)∨(T4B∧T5B)∨(T3C∧T3D)),
+60 (T1B∧T2B∧T3B∧T4B∧T5B)→RB15,
+61 (T2B∧T3B∧T4B∧T5B)→RB25,
+62 (T3B∧T4B∧T5B)→RB35,
+63 (TD3A)→¬(T3C∧T3D),
+64 (T2B∧T3B∧T4B)→RB24,
+65 (T1B∧T2B∧T3B∧T4B)→RB14 
+IS
+SEQ (cut[B,C\56,1]) ("→ elim"[A,B\49,56]) (hyp[A\55]) (hyp[A\49]) (cut[B,C\2,1]) ("→ elim"[A,B\51,2]) (hyp[A\54]) (hyp[A\51]) (cut[B,C\53,1]) ("→ elim"[A,B\51,53]) (hyp[A\52]) (hyp[A\51]) (cut[B,C\11,1]) ("→ elim"[A,B\49,11]) (hyp[A\50]) (hyp[A\49]) ("∨ elim"[A,B,C\48,3,1]) (hyp[A\47]) ("∨ elim"[A,B,C\46,12,1]) (hyp[A\45]) ("∨ elim"[A,B,C\44,21,1]) (hyp[A\43]) ("∨ elim"[A,B,C\42,20,1]) (hyp[A\41]) ("∨ elim"[A,B,C\40,33,1]) (hyp[A\39]) ("∨ elim"[A,B,C\31,32,1]) (hyp[A\38]) (cut[B,C\30,1]) ("∧ intro"[A,B\31,11]) (hyp[A\31]) (hyp[A\11]) (cut[B,C\35,1]) ("→ elim"[A,B\30,35]) (hyp[A\37]) (hyp[A\30]) (cut[B,C\35,1]) (hyp[A\35]) (cut[B,C\26,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\34,35]) (hyp[A\35])) (cut[B,C\23,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\25,26]) (hyp[A\26])) (cut[B,C\14,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\22,23]) (hyp[A\23])) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\13,14]) (hyp[A\14])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\31,10]) (hyp[A\32])) (cut[B,C\31,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\31,10]) (hyp[A\32])) (cut[B,C\30,1]) ("∧ intro"[A,B\31,11]) (hyp[A\31]) (hyp[A\11]) (cut[B,C\29,1]) ("∧ intro"[A,B\30,10]) (hyp[A\30]) (hyp[A\10]) (cut[B,C\34,1]) ("→ elim"[A,B\29,34]) (hyp[A\36]) (hyp[A\29]) (cut[B,C\34,1]) (hyp[A\34]) (cut[B,C\26,1]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\35,34]) (hyp[A\34])) (cut[B,C\23,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\25,26]) (hyp[A\26])) (cut[B,C\14,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\22,23]) (hyp[A\23])) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\13,14]) (hyp[A\14])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\8,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\32,8]) (hyp[A\33])) (cut[B,C\32,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\32,8]) (hyp[A\33])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\31,10]) (hyp[A\32])) (cut[B,C\31,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\31,10]) (hyp[A\32])) (cut[B,C\30,1]) ("∧ intro"[A,B\31,11]) (hyp[A\31]) (hyp[A\11]) (cut[B,C\29,1]) ("∧ intro"[A,B\30,10]) (hyp[A\30]) (hyp[A\10]) (cut[B,C\27,1]) ("∧ intro"[A,B\29,8]) (hyp[A\29]) (hyp[A\8]) (cut[B,C\25,1]) ("→ elim"[A,B\27,25]) (hyp[A\28]) (hyp[A\27]) (cut[B,C\25,1]) (hyp[A\25]) (cut[B,C\23,1]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\26,25]) (hyp[A\25])) (cut[B,C\14,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\22,23]) (hyp[A\23])) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\13,14]) (hyp[A\14])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\19,10]) (hyp[A\20])) (cut[B,C\19,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\19,10]) (hyp[A\20])) (cut[B,C\18,1]) ("∧ intro"[A,B\19,11]) (hyp[A\19]) (hyp[A\11]) (cut[B,C\17,1]) ("∧ intro"[A,B\18,10]) (hyp[A\18]) (hyp[A\10]) (cut[B,C\22,1]) ("→ elim"[A,B\17,22]) (hyp[A\24]) (hyp[A\17]) (cut[B,C\22,1]) (hyp[A\22]) (cut[B,C\14,1]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\23,22]) (hyp[A\22])) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\13,14]) (hyp[A\14])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\8,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\20,8]) (hyp[A\21])) (cut[B,C\20,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\20,8]) (hyp[A\21])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\19,10]) (hyp[A\20])) (cut[B,C\19,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\19,10]) (hyp[A\20])) (cut[B,C\18,1]) ("∧ intro"[A,B\19,11]) (hyp[A\19]) (hyp[A\11]) (cut[B,C\17,1]) ("∧ intro"[A,B\18,10]) (hyp[A\18]) (hyp[A\10]) (cut[B,C\15,1]) ("∧ intro"[A,B\17,8]) (hyp[A\17]) (hyp[A\8]) (cut[B,C\13,1]) ("→ elim"[A,B\15,13]) (hyp[A\16]) (hyp[A\15]) (cut[B,C\13,1]) (hyp[A\13]) (cut[B,C\5,1]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\14,13]) (hyp[A\13])) (LAYOUT "∨ intro" (0) ("∨ intro(L)"[B,A\4,5]) (hyp[A\5])) (cut[B,C\8,1]) (LAYOUT "∧ elim" (0) ("∧ elim(R)"[A,B\10,8]) (hyp[A\12])) (cut[B,C\10,1]) (LAYOUT "∧ elim" (0) ("∧ elim(L)"[A,B\10,8]) (hyp[A\12])) (cut[B,C\9,1]) ("∧ intro"[A,B\11,10]) (hyp[A\11]) (hyp[A\10]) (cut[B,C\6,1]) ("∧ intro"[A,B\9,8]) (hyp[A\9]) (hyp[A\8]) (cut[B,C\4,1]) ("→ elim"[A,B\6,4]) (hyp[A\7]) (hyp[A\6]) (cut[B,C\4,1]) (hyp[A\4]) (LAYOUT "∨ intro" (0) ("∨ intro(R)"[B,A\5,4]) (hyp[A\4])) (cut[B,C\3,1]) (hyp[A\3]) (cut[B,C\0,1]) ("¬ elim"[B\3]) (hyp[A\3]) (hyp[A\2]) ("contra (constructive)"[B\1]) (hyp[A\0])
+END

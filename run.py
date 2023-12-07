@@ -442,7 +442,7 @@ def suggest_player_want_list(sol):
                     pl_wants.append((temp_str[12:-1], temp_str[-1]))
     return pl_wants
 if __name__ == "__main__":
-    TOTAL_ROUNDS = 2
+    TOTAL_ROUNDS = 5
     print("|-------- Exploration 1: Play the game", TOTAL_ROUNDS,"rounds and find the cards that the opponent is potentially holding --------|\n")
     # ================= Exploration 1: Given the game runs for a few turns, guess the cards that the opponent is holding =================
     initial_info = initial_game()
