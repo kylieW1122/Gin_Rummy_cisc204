@@ -442,7 +442,7 @@ def suggest_player_want_list(sol):
                     pl_wants.append((temp_str[12:-1], temp_str[-1]))
     return pl_wants
 if __name__ == "__main__":
-    TOTAL_ROUNDS = 5
+    TOTAL_ROUNDS = 3
     print("|-------- Exploration 1: Play the game", TOTAL_ROUNDS,"rounds and find the cards that the opponent is potentially holding --------|\n")
     # ================= Exploration 1: Given the game runs for a few turns, guess the cards that the opponent is holding =================
     initial_info = initial_game()
@@ -520,7 +520,7 @@ if __name__ == "__main__":
     p_meld = count_pl_meld(T_P.solve())
 
     pl_wants = suggest_player_want_list(T_P.solve())
-    print("The model sugguest the cards that the player should want are:\n", sorted(pl_wants))
+    
     print("\n----------------- Exploration 2 OUTPUT: -----------------\n")
 
     if not T_P.satisfiable() and not T_NP.satisfiable():
@@ -532,5 +532,10 @@ if __name__ == "__main__":
             print("the number of solutions is the same either the player picks up the card or not.")
         else: # there exist more model if the player does NOT pick up the discarding card, i.e. should draw a new card from the deck, OR there is solution that satisfy the model
             print("The model suggests the player to NOT pick up the card", discard_pile_top_card, "and draws a new card from the deck. ") 
+    
+    if len(pl_wants)<1:
+        print("\nThere is no card that is still in the deck for player to win, consider rearranging your melds.")
+    else:
+        print("\nThe model sugguest the cards that is still possible to pick up from the player and would lead to a win are:\n", sorted(pl_wants))
     print()
 
